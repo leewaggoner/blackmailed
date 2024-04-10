@@ -13,24 +13,35 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.navigation.compose.rememberNavController
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.wreckingballsoftware.blackmailed.R
 import com.wreckingballsoftware.blackmailed.ui.navigation.NavGraph
 import com.wreckingballsoftware.blackmailed.ui.theme.blackmailedTypography
 import com.wreckingballsoftware.blackmailed.ui.theme.dimensions
+import com.wreckingballsoftware.blackmailed.ui.welcome.models.WelcomeEvents
+import com.wreckingballsoftware.blackmailed.ui.welcome.models.WelcomeNavigation
+import org.koin.androidx.compose.getViewModel
 
 @Composable
 fun WelcomeScreen(
     navGraph: NavGraph,
+    viewModel: WelcomeViewModel = getViewModel()
 ) {
+    val navigation = viewModel.navigation.collectAsStateWithLifecycle(null)
+    navigation.value?.let { nav ->
+        when (nav) {
+            WelcomeNavigation.Play ->navGraph.navigateToGamePlayScreen()
+        }
+    }
+
     WelcomeScreenContent(
-        navGraph = navGraph,
+        onEvent = viewModel::onEvent,
     )
 }
 
 @Composable
 fun WelcomeScreenContent(
-    navGraph: NavGraph,
+    onEvent: (WelcomeEvents) -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -51,7 +62,7 @@ fun WelcomeScreenContent(
             style = MaterialTheme.blackmailedTypography.title,
         )
         Spacer(modifier = Modifier.height(MaterialTheme.dimensions.spaceMedium))
-        Button(onClick = { navGraph.navigateToGamePlayScreen() }) {
+        Button(onClick = { onEvent(WelcomeEvents.OnPlayPressed) }) {
             Text(text = stringResource(id = R.string.play))
         }
     }
@@ -61,6 +72,6 @@ fun WelcomeScreenContent(
 @Composable
 fun WelcomeScreenContentPreview() {
     WelcomeScreenContent(
-        navGraph = NavGraph(rememberNavController())
+        onEvent = { },
     )
 }

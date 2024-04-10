@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">Blackmailed</string>
+    <string name="welcome">Welcome to</string>
+    <string name="press_play">Press Play to begin!</string>
+    <string name="play">Play</string>
 </resources>

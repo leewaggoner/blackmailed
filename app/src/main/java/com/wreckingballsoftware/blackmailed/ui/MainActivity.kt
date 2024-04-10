@@ -1,4 +1,4 @@
-package com.wreckingballsoftware.blackmailed
+package com.wreckingballsoftware.blackmailed.ui
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity

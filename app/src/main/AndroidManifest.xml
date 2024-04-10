@@ -13,7 +13,7 @@
         android:theme="@style/Theme.Blackmailed"
         tools:targetApi="34">
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.MainActivity"
             android:exported="true"
             android:theme="@style/Theme.Blackmailed">
             <intent-filter>

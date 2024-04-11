@@ -18,7 +18,7 @@ import com.wreckingballsoftware.blackmailed.R
 import com.wreckingballsoftware.blackmailed.ui.navigation.NavGraph
 import com.wreckingballsoftware.blackmailed.ui.theme.blackmailedTypography
 import com.wreckingballsoftware.blackmailed.ui.theme.dimensions
-import com.wreckingballsoftware.blackmailed.ui.welcome.models.WelcomeEvents
+import com.wreckingballsoftware.blackmailed.ui.welcome.models.WelcomeEvent
 import com.wreckingballsoftware.blackmailed.ui.welcome.models.WelcomeNavigation
 import org.koin.androidx.compose.getViewModel
 
@@ -41,7 +41,7 @@ fun WelcomeScreen(
 
 @Composable
 fun WelcomeScreenContent(
-    onEvent: (WelcomeEvents) -> Unit,
+    onEvent: (WelcomeEvent) -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -62,7 +62,7 @@ fun WelcomeScreenContent(
             style = MaterialTheme.blackmailedTypography.title,
         )
         Spacer(modifier = Modifier.height(MaterialTheme.dimensions.spaceMedium))
-        Button(onClick = { onEvent(WelcomeEvents.OnPlayPressed) }) {
+        Button(onClick = { onEvent(WelcomeEvent.OnPlayPressed) }) {
             Text(text = stringResource(id = R.string.play))
         }
     }

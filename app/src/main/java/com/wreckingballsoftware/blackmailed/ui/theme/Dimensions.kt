@@ -11,11 +11,15 @@ import androidx.compose.ui.unit.dp
 @Immutable
 data class Dimensions(
     val buttonWidth: Dp = 160.dp,
+    val paddingVerySmall: Dp = 4.dp,
+    val paddingSmall: Dp = 8.dp,
     val padding: Dp = 16.dp,
     val spaceSmall: Dp = 16.dp,
     val spaceMedium: Dp = 32.dp,
     val spaceLarge: Dp = 64.dp,
-    val highScoreBoxWidth: Dp = 160.dp,
+    val wordCorner: Dp = 4.dp,
+    val cardElevation: Dp = 6.dp,
+    val cardBorderWidth: Dp = 2.dp,
 )
 
 val LocalDimensions = staticCompositionLocalOf { Dimensions() }

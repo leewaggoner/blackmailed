@@ -6,7 +6,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.wreckingballsoftware.blackmailed.ui.gameplay.GameplayScreen
-import com.wreckingballsoftware.blackmailed.ui.results.ResultsScreen
+import com.wreckingballsoftware.blackmailed.ui.roundresults.RoundResultsScreen
 import com.wreckingballsoftware.blackmailed.ui.welcome.WelcomeScreen
 
 @Composable
@@ -25,8 +25,8 @@ fun BlackmailedHost() {
             GameplayScreen(navGraph = navGraph)
         }
 
-        composable(route = Destinations.ResultsScreen) {
-            ResultsScreen(navGraph = navGraph)
+        composable(route = Destinations.RoundResultsScreen) {
+            RoundResultsScreen(navGraph = navGraph)
         }
     }
 }

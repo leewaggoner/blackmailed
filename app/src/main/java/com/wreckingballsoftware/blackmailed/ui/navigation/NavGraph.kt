@@ -23,9 +23,9 @@ class NavGraph(navController: NavController) {
             launchSingleTop = true
         }
     }
-    val navigateToResultsScreen: () -> Unit = {
+    val navigateToRoundResultsScreen: () -> Unit = {
         navController.navigate(
-            Destinations.ResultsScreen
+            Destinations.RoundResultsScreen
         ) {
             popUpTo(navController.graph.id) {
                 inclusive = true

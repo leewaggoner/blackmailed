@@ -11,7 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.wreckingballsoftware.blackmailed.ui.compose.BlackmailLetterCard
+import com.wreckingballsoftware.blackmailed.ui.compose.BlackmailLetter
 import com.wreckingballsoftware.blackmailed.ui.theme.blackmailedTypography
 import com.wreckingballsoftware.blackmailed.ui.theme.dimensions
 
@@ -42,7 +42,10 @@ fun PlayerLetter(
                 style = MaterialTheme.blackmailedTypography.title
             )
         }
-        BlackmailLetterCard(letter = letter)
+        BlackmailLetter(
+            letter = letter,
+            onClick = { }
+        )
     }
 }
 

@@ -1,6 +1,7 @@
 package com.wreckingballsoftware.blackmailed.ui.compose
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
@@ -17,10 +18,14 @@ import com.wreckingballsoftware.blackmailed.ui.theme.dimensions
 @Composable
 fun BlackmailWord(
     word: String,
-    modifier: Modifier = Modifier
+    onClick: (String) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Card(
-        modifier = modifier,
+        modifier = modifier.then(
+            Modifier
+                .clickable { onClick(word) }
+        ),
         shape = RoundedCornerShape(MaterialTheme.dimensions.wordCorner),
         border = BorderStroke(MaterialTheme.dimensions.cardBorderWidth, Color.DarkGray),
         elevation = CardDefaults.cardElevation(
@@ -38,5 +43,8 @@ fun BlackmailWord(
 @Preview(name = "BlackmailWord Preview", showBackground = true)
 @Composable
 fun BlackmailWordPreview() {
-    BlackmailWord("blackmail")
+    BlackmailWord(
+        word = "blackmail",
+        onClick = { }
+    )
 }

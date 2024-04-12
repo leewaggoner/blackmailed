@@ -36,6 +36,53 @@ class GameplayViewModel(
                     navigation.emit(GameplayNavigation.Submit)
                 }
             }
+            is GameplayEvent.BlackmailLetterClicked -> {
+                state = state.copy(
+                    blackmailLetter = removeWord(
+                        state.blackmailLetter,
+                        event.word,
+                    ),
+                    blackmailTray = addWord(
+                        state.blackmailTray,
+                        event.word,
+                        addToFront = true
+                    )
+                )
+            }
+            is GameplayEvent.BlackmailWordTrayClicked -> {
+                state = state.copy(
+                    blackmailTray = removeWord(
+                        wordList = state.blackmailTray,
+                        word =  event.word,
+                    ),
+                    blackmailLetter = addWord(
+                        state.blackmailLetter,
+                        event.word,
+                    )
+                )
+            }
         }
+    }
+
+    private fun addWord(
+        wordList: List<String>,
+        word: String,
+        addToFront: Boolean = false
+    ) : List<String> {
+        val tray = wordList.toMutableList().apply {
+            if (addToFront) {
+                add(0, word)
+            } else {
+                add(word)
+            }
+        }
+        return tray
+    }
+
+    private fun removeWord(wordList: List<String>, word: String) : List<String> {
+        val tray = wordList.toMutableList().apply {
+            remove(word)
+        }
+        return tray
     }
 }

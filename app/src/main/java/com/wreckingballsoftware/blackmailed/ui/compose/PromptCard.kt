@@ -28,7 +28,8 @@ fun PromptCard(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(MaterialTheme.dimensions.padding)
+                .padding(horizontal = MaterialTheme.dimensions.padding)
+                .padding(vertical = MaterialTheme.dimensions.paddingSmall)
                 .verticalScroll(rememberScrollState()),
 
         ) {

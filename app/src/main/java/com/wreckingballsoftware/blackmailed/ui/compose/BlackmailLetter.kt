@@ -19,8 +19,9 @@ import com.wreckingballsoftware.blackmailed.ui.theme.dimensions
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun BlackmailLetterCard(
+fun BlackmailLetter(
     letter: List<String>,
+    onClick: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     OutlinedCard(
@@ -36,13 +37,15 @@ fun BlackmailLetterCard(
             FlowRow(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(all = MaterialTheme.dimensions.padding),
+                    .padding(horizontal = MaterialTheme.dimensions.padding)
+                    .padding(vertical = MaterialTheme.dimensions.paddingSmall),
                 horizontalArrangement = Arrangement.spacedBy(MaterialTheme.dimensions.padding),
             ) {
                 letter.forEach { word ->
                     BlackmailWord(
                         modifier = Modifier.padding(vertical = MaterialTheme.dimensions.paddingSmall),
                         word = word,
+                        onClick = onClick
                     )
                 }
             }
@@ -52,8 +55,9 @@ fun BlackmailLetterCard(
 
 @Preview(name = "BlackmailLetterCard Preview", showBackground = true)
 @Composable
-fun BlackmailLetterCardPreview() {
-    BlackmailLetterCard(
-        letter = listOf("I", "am", "a", "very", "large", "blackmail", "letter", "for", "you", "to", "read", "and", "enjoy", "forever")
+fun BlackmailLetterPreview() {
+    BlackmailLetter(
+        letter = listOf("I", "am", "a", "very", "large", "blackmail", "letter", "for", "you", "to", "read", "and", "enjoy", "forever"),
+        onClick = { }
     )
 }

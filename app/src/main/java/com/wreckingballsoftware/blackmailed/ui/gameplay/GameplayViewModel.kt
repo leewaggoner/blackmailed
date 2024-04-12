@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.SavedStateHandleSaveableApi
 import androidx.lifecycle.viewmodel.compose.saveable
+import com.wreckingballsoftware.blackmailed.data.repos.BlackmailedAssetsRepo
 import com.wreckingballsoftware.blackmailed.ui.gameplay.models.GameplayEvent
 import com.wreckingballsoftware.blackmailed.ui.gameplay.models.GameplayNavigation
 import com.wreckingballsoftware.blackmailed.ui.gameplay.models.GameplayState
@@ -15,6 +16,7 @@ import kotlinx.coroutines.launch
 
 class GameplayViewModel(
     handle: SavedStateHandle,
+    private val assetsRepo: BlackmailedAssetsRepo
 ) : ViewModel() {
     @OptIn(SavedStateHandleSaveableApi::class)
     var state by handle.saveable {
@@ -25,6 +27,16 @@ class GameplayViewModel(
         extraBufferCapacity = 1,
         onBufferOverflow = BufferOverflow.DROP_LATEST,
     )
+
+    init {
+        viewModelScope.launch {
+            assetsRepo.getBlackmailPrompts()
+            state = state.copy(
+                prompt = assetsRepo.getNextPrompt().prompt,
+                blackmailTray = assetsRepo.getBlackmailWords().map { it.word }
+            )
+        }
+    }
 
     fun onEvent(event: GameplayEvent) {
         when (event) {

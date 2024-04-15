@@ -9,7 +9,9 @@ import androidx.lifecycle.viewmodel.compose.saveable
 import com.wreckingballsoftware.blackmailed.data.repos.BlackmailedAssetsRepo
 import com.wreckingballsoftware.blackmailed.data.repos.GameTimer
 import com.wreckingballsoftware.blackmailed.data.repos.MAX_TIME
-import com.wreckingballsoftware.blackmailed.data.repos.millisToTimeString
+import com.wreckingballsoftware.blackmailed.extensions.listJsonEncode
+import com.wreckingballsoftware.blackmailed.extensions.listOfListsJsonEncode
+import com.wreckingballsoftware.blackmailed.extensions.millisToTimeString
 import com.wreckingballsoftware.blackmailed.ui.gameplay.models.GameplayEvent
 import com.wreckingballsoftware.blackmailed.ui.gameplay.models.GameplayNavigation
 import com.wreckingballsoftware.blackmailed.ui.gameplay.models.GameplayState
@@ -97,6 +99,10 @@ class GameplayViewModel(
             }
         }
     }
+
+    fun getPlayerName() : String = listOf("Player1").listJsonEncode()
+
+    fun getLetter() : String  = listOf(state.blackmailLetter).listOfListsJsonEncode()
 
     private fun addWord(
         wordList: List<String>,

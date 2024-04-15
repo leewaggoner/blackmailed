@@ -2,7 +2,6 @@ package com.wreckingballsoftware.blackmailed.ui.roundresults.compose
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -15,7 +14,6 @@ import com.wreckingballsoftware.blackmailed.ui.compose.BlackmailLetter
 import com.wreckingballsoftware.blackmailed.ui.theme.blackmailedTypography
 import com.wreckingballsoftware.blackmailed.ui.theme.dimensions
 
-@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun PlayerLetter(
     modifier: Modifier = Modifier,
@@ -24,7 +22,7 @@ fun PlayerLetter(
     letter: List<String>,
 ) {
     Column(
-        modifier = modifier,
+        modifier = Modifier.fillMaxWidth()
     ) {
         Row(
             modifier = Modifier
@@ -43,6 +41,7 @@ fun PlayerLetter(
             )
         }
         BlackmailLetter(
+            modifier = modifier,
             letter = letter,
             onClick = { }
         )

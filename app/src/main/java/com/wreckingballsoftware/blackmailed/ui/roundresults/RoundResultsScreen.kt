@@ -20,13 +20,15 @@ import com.wreckingballsoftware.blackmailed.ui.navigation.NavGraph
 import com.wreckingballsoftware.blackmailed.ui.roundresults.compose.PlayerLetter
 import com.wreckingballsoftware.blackmailed.ui.roundresults.models.RoundResultsEvent
 import com.wreckingballsoftware.blackmailed.ui.roundresults.models.RoundResultsNavigation
-import com.wreckingballsoftware.blackmailed.ui.roundresults.models.RoundResultsState
 import com.wreckingballsoftware.blackmailed.ui.theme.dimensions
 import org.koin.androidx.compose.getViewModel
 
 @Composable
 fun RoundResultsScreen(
     navGraph: NavGraph,
+    players: List<String>,
+    prompt: String,
+    letters: List<List<String>>,
     viewModel: RoundResultsViewModel = getViewModel(),
 ) {
     val navigation = viewModel.navigation.collectAsStateWithLifecycle(null)
@@ -37,14 +39,18 @@ fun RoundResultsScreen(
     }
 
     RoundResultsScreenContent(
-        state = viewModel.state,
+        players = players,
+        prompt = prompt,
+        letters = letters,
         onEvent = viewModel::onEvent
     )
 }
 
 @Composable
 fun RoundResultsScreenContent(
-    state: RoundResultsState,
+    players: List<String>,
+    prompt: String,
+    letters: List<List<String>>,
     onEvent: (RoundResultsEvent) -> Unit,
 ) {
     Column(
@@ -68,9 +74,9 @@ fun RoundResultsScreenContent(
                         .fillMaxWidth()
                         .height(MaterialTheme.dimensions.promptHeight)
                         .padding(bottom = MaterialTheme.dimensions.padding),
-                    prompt = state.prompt,
+                    prompt = prompt,
                 )
-                state.players.forEachIndexed { index, player ->
+                players.forEachIndexed { index, player ->
                     PlayerLetter(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -78,7 +84,7 @@ fun RoundResultsScreenContent(
                             .padding(bottom = MaterialTheme.dimensions.padding),
                         playerName = player,
                         playerWon = true,
-                        letter = state.blackmailLetters[index]
+                        letter = letters[index]
                     )
                 }
             }
@@ -97,14 +103,13 @@ fun RoundResultsScreenContent(
 @Composable
 fun RoundResultsScreenContentPreview() {
     RoundResultsScreenContent(
-        state = RoundResultsState(
-            prompt = "Describe the day in the life of a forgetful wedding planner trying to organize a wedding with the help of their equally forgetful assistant.",
-            blackmailLetters = listOf(
-                listOf("I", "am", "a", "very", "large", "blackmail", "letter", "for", "you", "to", "read", "and", "enjoy", "forever", "and", "ever", "and", "ever", "and", "ever", "and", "ever"),
-                listOf("I", "am", "a", "very", "large", "blackmail", "letter", "for", "you", "to", "read", "and", "enjoy", "forever", "and", "ever", "and", "ever", "and", "ever", "and", "ever"),
-                listOf("I", "am", "a", "very", "large", "blackmail", "letter", "for", "you", "to", "read", "and", "enjoy", "forever", "and", "ever", "and", "ever", "and", "ever", "and", "ever"),
-                listOf("I", "am", "a", "very", "large", "blackmail", "letter", "for", "you", "to", "read", "and", "enjoy", "forever", "and", "ever", "and", "ever", "and", "ever", "and", "ever"),
-            )
+        players = listOf("Player1", "Player2", "Player3", "Player4"),
+        prompt = "Describe the day in the life of a forgetful wedding planner trying to organize a wedding with the help of their equally forgetful assistant.",
+        letters = listOf(
+            listOf("I", "am", "a", "very", "large", "blackmail", "letter", "for", "you", "to", "read", "and", "enjoy", "forever", "and", "ever", "and", "ever", "and", "ever", "and", "ever"),
+            listOf("I", "am", "a", "very", "large", "blackmail", "letter", "for", "you", "to", "read", "and", "enjoy", "forever", "and", "ever", "and", "ever", "and", "ever", "and", "ever"),
+            listOf("I", "am", "a", "very", "large", "blackmail", "letter", "for", "you", "to", "read", "and", "enjoy", "forever", "and", "ever", "and", "ever", "and", "ever", "and", "ever"),
+            listOf("I", "am", "a", "very", "large", "blackmail", "letter", "for", "you", "to", "read", "and", "enjoy", "forever", "and", "ever", "and", "ever", "and", "ever", "and", "ever"),
         ),
         onEvent = { }
     )

@@ -38,7 +38,11 @@ fun GameplayScreen(
     val navigation = viewModel.navigation.collectAsStateWithLifecycle(null)
     navigation.value?.let { nav ->
         when (nav) {
-            GameplayNavigation.Submit ->navGraph.navigateToRoundResultsScreen()
+            GameplayNavigation.Submit -> navGraph.navigateToRoundResultsScreen(
+                viewModel.getPlayerName(),
+                viewModel.state.prompt,
+                viewModel.getLetter(),
+            )
         }
     }
 

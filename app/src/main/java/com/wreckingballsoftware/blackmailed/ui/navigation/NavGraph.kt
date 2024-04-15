@@ -23,9 +23,19 @@ class NavGraph(navController: NavController) {
             launchSingleTop = true
         }
     }
-    val navigateToRoundResultsScreen: () -> Unit = {
+    val navigateToRoundResultsScreen:
+                (String, String, String) -> Unit = { players, prompt, letters ->
         navController.navigate(
-            Destinations.RoundResultsScreen
+            Destinations.RoundResultsScreen.replace(
+                oldValue = "{players}",
+                newValue = players,
+            ).replace(
+                oldValue = "{prompt}",
+                newValue = prompt,
+            ).replace(
+                oldValue = "{letters}",
+                newValue = letters,
+            )
         ) {
             popUpTo(navController.graph.id) {
                 inclusive = true

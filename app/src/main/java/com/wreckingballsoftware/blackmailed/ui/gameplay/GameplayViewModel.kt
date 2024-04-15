@@ -31,17 +31,19 @@ class GameplayViewModel(
     init {
         viewModelScope.launch {
             assetsRepo.getBlackmailPrompts()
-            state = state.copy(
-                prompt = assetsRepo.getNextPrompt().prompt,
-                blackmailTray = assetsRepo.getBlackmailWords().map { it.word }
+            onEvent(
+                GameplayEvent.ResetGameplayScreen(
+                    prompt = assetsRepo.getNextPrompt(),
+                    wordList = assetsRepo.getBlackmailWords().map { it.word }
+                )
             )
         }
     }
 
     fun onEvent(event: GameplayEvent) {
         when (event) {
-            GameplayEvent.ResetGameplayScreen -> {
-                state = GameplayState()
+            is GameplayEvent.ResetGameplayScreen -> {
+                state = GameplayState(prompt = event.prompt, blackmailTray = event.wordList)
             }
             GameplayEvent.SubmitBlackmailLetter -> {
                 viewModelScope.launch {

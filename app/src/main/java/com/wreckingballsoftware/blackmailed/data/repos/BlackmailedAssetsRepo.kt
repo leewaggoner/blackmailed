@@ -18,7 +18,7 @@ class BlackmailedAssetsRepo(
         blackmailWordsDao.getBlackmailWords()
     }
 
-    fun getNextPrompt(): DBPrompt {
+    fun getNextPrompt(): String {
         var result = DBPrompt(prompt = "")
         blackmailPrompts?.let { prompts ->
             if (promptIndex >= prompts.size) {
@@ -26,7 +26,7 @@ class BlackmailedAssetsRepo(
             }
             result = prompts[promptIndex++]
         }
-        return result
+        return result.prompt
     }
 
     suspend fun getBlackmailPrompts() {

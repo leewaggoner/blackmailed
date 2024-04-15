@@ -3,7 +3,10 @@ package com.wreckingballsoftware.blackmailed.ui.roundresults
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -47,38 +50,43 @@ fun RoundResultsScreenContent(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(MaterialTheme.dimensions.padding),
+            .padding(top = MaterialTheme.dimensions.padding)
+            .padding(horizontal = MaterialTheme.dimensions.padding),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(top = MaterialTheme.dimensions.padding)
-                .weight(1.0f)
+                .weight(1.0f),
         ) {
-            PromptCard(
+            Column(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(0.2f)
-                    .padding(bottom = MaterialTheme.dimensions.padding),
-                prompt = state.prompt,
-            )
-            state.players.forEachIndexed { index, player ->
-                PlayerLetter(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(0.2f)
-                    .padding(bottom = MaterialTheme.dimensions.padding),
-                    playerName = player,
-                    playerWon = true,
-                    letter = state.blackmailLetters[index]
+                    .verticalScroll(rememberScrollState()),
+            ) {
+                PromptCard(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(MaterialTheme.dimensions.promptHeight)
+                        .padding(bottom = MaterialTheme.dimensions.padding),
+                    prompt = state.prompt,
                 )
+                state.players.forEachIndexed { index, player ->
+                    PlayerLetter(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(MaterialTheme.dimensions.letterTrayHeight)
+                            .padding(bottom = MaterialTheme.dimensions.padding),
+                        playerName = player,
+                        playerWon = true,
+                        letter = state.blackmailLetters[index]
+                    )
+                }
             }
         }
         Button(
             modifier = Modifier
-                .padding(vertical = MaterialTheme.dimensions.padding),
-            onClick = { onEvent(RoundResultsEvent.OnStartNextRound) }
+                .padding(vertical = MaterialTheme.dimensions.paddingSmall),
+            onClick = { onEvent(RoundResultsEvent.OnStartNextRound) },
         ) {
             Text("Play Again")
         }

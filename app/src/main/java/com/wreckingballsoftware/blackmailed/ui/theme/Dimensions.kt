@@ -20,6 +20,9 @@ data class Dimensions(
     val wordCorner: Dp = 4.dp,
     val cardElevation: Dp = 6.dp,
     val cardBorderWidth: Dp = 2.dp,
+    val promptHeight: Dp = 160.dp,
+    val letterTrayHeight: Dp = 240.dp,
+    val wordTrayHeight: Dp = 300.dp,
 )
 
 val LocalDimensions = staticCompositionLocalOf { Dimensions() }

@@ -3,6 +3,7 @@ package com.wreckingballsoftware.blackmailed.di
 import androidx.room.Room
 import com.wreckingballsoftware.blackmailed.data.database.BlackmailedDb
 import com.wreckingballsoftware.blackmailed.data.repos.BlackmailedAssetsRepo
+import com.wreckingballsoftware.blackmailed.data.repos.GameTimer
 import com.wreckingballsoftware.blackmailed.ui.gameplay.GameplayViewModel
 import com.wreckingballsoftware.blackmailed.ui.roundresults.RoundResultsViewModel
 import com.wreckingballsoftware.blackmailed.ui.welcome.WelcomeViewModel
@@ -22,12 +23,17 @@ val appModule = module {
         GameplayViewModel(
             handle = get(),
             assetsRepo = get(),
+            gameTimer = get(),
         )
     }
     viewModel {
         RoundResultsViewModel(
             handle = get(),
         )
+    }
+
+    single {
+        GameTimer()
     }
 
     single {

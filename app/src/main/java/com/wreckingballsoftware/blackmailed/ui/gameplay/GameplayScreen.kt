@@ -66,7 +66,7 @@ fun GameplayScreenContent(
             horizontalArrangement = Arrangement.SpaceBetween,
         ) {
             Text(
-                text = "2:00",
+                text = state.timeRemaining,
                 style = MaterialTheme.blackmailedTypography.headline,
             )
             Button(
@@ -111,6 +111,7 @@ fun GameplayScreenContent(
 fun GameplayScreenContentPreview() {
     GameplayScreenContent(
         state = GameplayState(
+            timeRemaining = "00:00",
             prompt = "Describe the day in the life of a forgetful wedding planner trying to organize a wedding with the help of their equally forgetful assistant.",
             blackmailLetter = listOf("I", "am", "a", "very", "large", "blackmail", "letter", "for", "you", "to", "read", "and", "enjoy", "forever", "and", "ever", "and", "ever", "and", "ever", "and", "ever"),
             blackmailTray = listOf(

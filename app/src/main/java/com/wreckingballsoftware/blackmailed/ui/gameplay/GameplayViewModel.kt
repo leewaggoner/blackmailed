@@ -7,6 +7,9 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.SavedStateHandleSaveableApi
 import androidx.lifecycle.viewmodel.compose.saveable
 import com.wreckingballsoftware.blackmailed.data.repos.BlackmailedAssetsRepo
+import com.wreckingballsoftware.blackmailed.data.repos.GameTimer
+import com.wreckingballsoftware.blackmailed.data.repos.MAX_TIME
+import com.wreckingballsoftware.blackmailed.data.repos.millisToTimeString
 import com.wreckingballsoftware.blackmailed.ui.gameplay.models.GameplayEvent
 import com.wreckingballsoftware.blackmailed.ui.gameplay.models.GameplayNavigation
 import com.wreckingballsoftware.blackmailed.ui.gameplay.models.GameplayState
@@ -16,7 +19,8 @@ import kotlinx.coroutines.launch
 
 class GameplayViewModel(
     handle: SavedStateHandle,
-    private val assetsRepo: BlackmailedAssetsRepo
+    private val assetsRepo: BlackmailedAssetsRepo,
+    private val gameTimer: GameTimer,
 ) : ViewModel() {
     @OptIn(SavedStateHandleSaveableApi::class)
     var state by handle.saveable {
@@ -43,9 +47,25 @@ class GameplayViewModel(
     fun onEvent(event: GameplayEvent) {
         when (event) {
             is GameplayEvent.ResetGameplayScreen -> {
-                state = GameplayState(prompt = event.prompt, blackmailTray = event.wordList)
+                gameTimer.startTimer(
+                    onTick = { timeRemaining ->
+                        val remaining = timeRemaining.millisToTimeString()
+                        state = state.copy(timeRemaining = remaining)
+                    },
+                    onFinish = {
+                        viewModelScope.launch {
+                            navigation.emit(GameplayNavigation.Submit)
+                        }
+                    }
+                )
+                state = GameplayState(
+                    timeRemaining = MAX_TIME.millisToTimeString(),
+                    prompt = event.prompt,
+                    blackmailTray = event.wordList
+                )
             }
             GameplayEvent.SubmitBlackmailLetter -> {
+                gameTimer.onFinish()
                 viewModelScope.launch {
                     navigation.emit(GameplayNavigation.Submit)
                 }

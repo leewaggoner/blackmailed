@@ -8,12 +8,16 @@ import androidx.compose.ui.tooling.preview.Preview
 fun BlackmailWordTray(
     words: List<String>,
     onClick: (String) -> Unit,
+    transferAction: String,
+    draggable: Boolean,
     modifier: Modifier = Modifier,
 ) {
     BlackmailLetter(
         modifier = modifier,
         letter = words,
         onClick = onClick,
+        transferAction = transferAction,
+        draggable = draggable,
     )
 }
 
@@ -94,5 +98,7 @@ fun BlackmailWordTrayPreview() {
             "wreck",
         ),
         onClick = { },
+        transferAction = transferToLetterAction,
+        draggable = false,
     )
 }

@@ -43,7 +43,9 @@ fun PlayerLetter(
         BlackmailLetter(
             modifier = modifier,
             letter = letter,
-            onClick = { }
+            onClick = { },
+            transferAction = "",
+            draggable = false,
         )
     }
 }
@@ -54,6 +56,6 @@ fun PlayerLetterPreview() {
     PlayerLetter(
         playerName = "Player 1",
         playerWon = true,
-        letter = listOf("I", "am", "a", "very", "large", "blackmail", "letter", "for", "you", "to", "read", "and", "enjoy", "forever")
+        letter = listOf("I", "am", "a", "very", "large", "blackmail", "letter", "for", "you", "to", "read", "and", "enjoy", "forever"),
     )
 }

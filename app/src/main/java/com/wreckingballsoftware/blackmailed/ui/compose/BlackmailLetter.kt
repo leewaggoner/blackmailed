@@ -22,6 +22,8 @@ import com.wreckingballsoftware.blackmailed.ui.theme.dimensions
 fun BlackmailLetter(
     letter: List<String>,
     onClick: (String) -> Unit,
+    draggable: Boolean,
+    transferAction: String,
     modifier: Modifier = Modifier,
 ) {
     OutlinedCard(
@@ -43,9 +45,12 @@ fun BlackmailLetter(
             ) {
                 letter.forEach { word ->
                     BlackmailWord(
-                        modifier = Modifier.padding(vertical = MaterialTheme.dimensions.paddingSmall),
+                        modifier = Modifier
+                            .padding(vertical = MaterialTheme.dimensions.paddingSmall),
                         word = word,
-                        onClick = onClick
+                        onClick = onClick,
+                        transferAction = transferAction,
+                        draggable = draggable,
                     )
                 }
             }
@@ -58,6 +63,8 @@ fun BlackmailLetter(
 fun BlackmailLetterPreview() {
     BlackmailLetter(
         letter = listOf("I", "am", "a", "very", "large", "blackmail", "letter", "for", "you", "to", "read", "and", "enjoy", "forever"),
-        onClick = { }
+        onClick = { },
+        transferAction = transferToTrayAction,
+        draggable = false,
     )
 }

@@ -1,5 +1,7 @@
 package com.wreckingballsoftware.blackmailed.ui.gameplay
 
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.draganddrop.dragAndDropTarget
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -11,11 +13,16 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draganddrop.DragAndDropEvent
+import androidx.compose.ui.draganddrop.DragAndDropTarget
+import androidx.compose.ui.draganddrop.toAndroidDragEvent
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.wreckingballsoftware.blackmailed.ui.compose.BlackmailLetter
 import com.wreckingballsoftware.blackmailed.ui.compose.BlackmailWordTray
 import com.wreckingballsoftware.blackmailed.ui.compose.PromptCard
+import com.wreckingballsoftware.blackmailed.ui.compose.transferToLetterAction
+import com.wreckingballsoftware.blackmailed.ui.compose.transferToTrayAction
 import com.wreckingballsoftware.blackmailed.ui.gameplay.compose.GameBar
 import com.wreckingballsoftware.blackmailed.ui.gameplay.models.GameplayEvent
 import com.wreckingballsoftware.blackmailed.ui.gameplay.models.GameplayNavigation
@@ -46,6 +53,7 @@ fun GameplayScreen(
     )
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun GameplayScreenContent(
     state: GameplayState,
@@ -79,20 +87,62 @@ fun GameplayScreenContent(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(MaterialTheme.dimensions.letterTrayHeight)
-                    .padding(bottom = MaterialTheme.dimensions.paddingSmall),
-                onClick = { word ->
-                    onEvent(GameplayEvent.BlackmailLetterClicked(word))
-                },
+                    .padding(bottom = MaterialTheme.dimensions.paddingSmall)
+                    .dragAndDropTarget(
+                        shouldStartDragAndDrop = { event ->
+                            event.toAndroidDragEvent().clipDescription.label == transferToLetterAction
+                        },
+                        target = object : DragAndDropTarget {
+                            override fun onDrop(event: DragAndDropEvent): Boolean {
+                                if(event.toAndroidDragEvent().clipDescription.label == transferToLetterAction) {
+                                    onEvent(
+                                        GameplayEvent.MoveWordToLetter(
+                                            event
+                                                .toAndroidDragEvent()
+                                                .clipData.getItemAt(0).text.toString()
+                                        )
+                                    )
+                                }
+                                return true
+                            }
+                        }
+                    ),
                 letter = state.blackmailLetter,
+                draggable = false,
+                transferAction = transferToTrayAction,
+                onClick = { word ->
+                    onEvent(GameplayEvent.MoveWordToTray(word))
+                },
             )
             BlackmailWordTray(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(MaterialTheme.dimensions.wordTrayHeight),
-                onClick = { word ->
-                    onEvent(GameplayEvent.BlackmailWordTrayClicked(word))
-                },
+                    .height(MaterialTheme.dimensions.wordTrayHeight)
+                    .dragAndDropTarget(
+                        shouldStartDragAndDrop = { event ->
+                            event.toAndroidDragEvent().clipDescription.label == transferToTrayAction
+                        },
+                        target = object : DragAndDropTarget {
+                            override fun onDrop(event: DragAndDropEvent): Boolean {
+                                if(event.toAndroidDragEvent().clipDescription.label == transferToTrayAction) {
+                                    onEvent(
+                                        GameplayEvent.MoveWordToTray(
+                                            event
+                                                .toAndroidDragEvent()
+                                                .clipData.getItemAt(0).text.toString()
+                                        )
+                                    )
+                                }
+                                return true
+                            }
+                        }
+                    ),
                 words = state.blackmailTray,
+                draggable = false,
+                transferAction = transferToLetterAction,
+                onClick = { word ->
+                    onEvent(GameplayEvent.MoveWordToLetter(word))
+                },
             )
         }
     }

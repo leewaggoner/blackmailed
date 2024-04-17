@@ -72,7 +72,7 @@ class GameplayViewModel(
                     navigation.emit(GameplayNavigation.Submit)
                 }
             }
-            is GameplayEvent.BlackmailLetterClicked -> {
+            is GameplayEvent.MoveWordToTray -> {
                 state = state.copy(
                     blackmailLetter = removeWord(
                         state.blackmailLetter,
@@ -85,7 +85,7 @@ class GameplayViewModel(
                     )
                 )
             }
-            is GameplayEvent.BlackmailWordTrayClicked -> {
+            is GameplayEvent.MoveWordToLetter -> {
                 state = state.copy(
                     blackmailTray = removeWord(
                         wordList = state.blackmailTray,

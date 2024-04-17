@@ -23,6 +23,7 @@ data class Dimensions(
     val promptHeight: Dp = 160.dp,
     val letterTrayHeight: Dp = 240.dp,
     val wordTrayHeight: Dp = 300.dp,
+    val gameBarHeight: Dp = 60.dp,
 )
 
 val LocalDimensions = staticCompositionLocalOf { Dimensions() }

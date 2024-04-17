@@ -1,32 +1,26 @@
 package com.wreckingballsoftware.blackmailed.ui.gameplay
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.wreckingballsoftware.blackmailed.ui.compose.BlackmailLetter
 import com.wreckingballsoftware.blackmailed.ui.compose.BlackmailWordTray
 import com.wreckingballsoftware.blackmailed.ui.compose.PromptCard
+import com.wreckingballsoftware.blackmailed.ui.gameplay.compose.GameBar
 import com.wreckingballsoftware.blackmailed.ui.gameplay.models.GameplayEvent
 import com.wreckingballsoftware.blackmailed.ui.gameplay.models.GameplayNavigation
 import com.wreckingballsoftware.blackmailed.ui.gameplay.models.GameplayState
 import com.wreckingballsoftware.blackmailed.ui.navigation.NavGraph
-import com.wreckingballsoftware.blackmailed.ui.theme.blackmailedTypography
 import com.wreckingballsoftware.blackmailed.ui.theme.dimensions
 import org.koin.androidx.compose.getViewModel
 
@@ -63,27 +57,13 @@ fun GameplayScreenContent(
             .padding(MaterialTheme.dimensions.padding),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Row(
+        GameBar(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(60.dp)
-                .padding(horizontal = MaterialTheme.dimensions.padding)
-                .padding(bottom = MaterialTheme.dimensions.paddingSmall),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween,
-        ) {
-            Text(
-                text = state.timeRemaining,
-                style = MaterialTheme.blackmailedTypography.headline,
-            )
-            Button(
-                modifier = Modifier
-                    .width(MaterialTheme.dimensions.buttonWidth),
-                onClick = { onEvent(GameplayEvent.SubmitBlackmailLetter) }
-            ) {
-                Text("Submit")
-            }
-        }
+                .height(MaterialTheme.dimensions.gameBarHeight),
+            timeRemaining = state.timeRemaining,
+            onEvent = onEvent,
+        )
         Column(
             modifier = Modifier
                 .verticalScroll(rememberScrollState())

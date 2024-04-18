@@ -97,9 +97,9 @@ fun GameplayScreenContent(
                                 if(event.toAndroidDragEvent().clipDescription.label == transferToLetterAction) {
                                     onEvent(
                                         GameplayEvent.MoveWordToLetter(
-                                            event
+                                            index = event
                                                 .toAndroidDragEvent()
-                                                .clipData.getItemAt(0).text.toString()
+                                                .clipData.getItemAt(0).text.toString().toInt()
                                         )
                                     )
                                 }
@@ -108,10 +108,10 @@ fun GameplayScreenContent(
                         }
                     ),
                 letter = state.blackmailLetter,
-                draggable = false,
+                draggable = true,
                 transferAction = transferToTrayAction,
-                onClick = { word ->
-                    onEvent(GameplayEvent.MoveWordToTray(word))
+                onClick = { index ->
+                    onEvent(GameplayEvent.MoveWordToTray(index = index))
                 },
             )
             BlackmailWordTray(
@@ -127,9 +127,9 @@ fun GameplayScreenContent(
                                 if(event.toAndroidDragEvent().clipDescription.label == transferToTrayAction) {
                                     onEvent(
                                         GameplayEvent.MoveWordToTray(
-                                            event
+                                            index = event
                                                 .toAndroidDragEvent()
-                                                .clipData.getItemAt(0).text.toString()
+                                                .clipData.getItemAt(0).text.toString().toInt()
                                         )
                                     )
                                 }
@@ -138,10 +138,10 @@ fun GameplayScreenContent(
                         }
                     ),
                 words = state.blackmailTray,
-                draggable = false,
+                draggable = true,
                 transferAction = transferToLetterAction,
-                onClick = { word ->
-                    onEvent(GameplayEvent.MoveWordToLetter(word))
+                onClick = { index ->
+                    onEvent(GameplayEvent.MoveWordToLetter(index = index))
                 },
             )
         }

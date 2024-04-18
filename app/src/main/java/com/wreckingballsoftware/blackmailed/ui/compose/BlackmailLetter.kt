@@ -21,7 +21,7 @@ import com.wreckingballsoftware.blackmailed.ui.theme.dimensions
 @Composable
 fun BlackmailLetter(
     letter: List<String>,
-    onClick: (String) -> Unit,
+    onClick: (Int) -> Unit,
     draggable: Boolean,
     transferAction: String,
     modifier: Modifier = Modifier,
@@ -43,10 +43,11 @@ fun BlackmailLetter(
                     .padding(vertical = MaterialTheme.dimensions.paddingSmall),
                 horizontalArrangement = Arrangement.spacedBy(MaterialTheme.dimensions.padding),
             ) {
-                letter.forEach { word ->
+                letter.forEachIndexed { index, word ->
                     BlackmailWord(
                         modifier = Modifier
                             .padding(vertical = MaterialTheme.dimensions.paddingSmall),
+                        index = index,
                         word = word,
                         onClick = onClick,
                         transferAction = transferAction,

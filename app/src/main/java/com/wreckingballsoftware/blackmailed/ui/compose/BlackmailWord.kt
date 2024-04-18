@@ -22,13 +22,25 @@ import com.wreckingballsoftware.blackmailed.ui.theme.dimensions
 
 const val transferToLetterAction = "action_wordToLetterAction"
 const val transferToTrayAction = "action_wordToTrayAction"
-const val wordTransferItem = "item_wordItem"
 
+
+/**
+ * A single word in the BlackmailLetter
+ *
+ * Note: I added the index because the draggable was giving me the same word every time, even though
+ * the word displayed was different. For example: if I dragged and dropped the second element,
+ * (A, B, C), so, B, everything looked fine (A, C), but if I then dragged the second word again, C,
+ * the word was still B. I needed the index to get the correct word. It worked fine when I was just
+ * clicking on the word, but broke when I added drag and drop. Weird. Something I
+ * don't understand about the way Compose updates, I'm sure. But passing the index works.
+ *
+ */
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun BlackmailWord(
+    index: Int,
     word: String,
-    onClick: (String) -> Unit,
+    onClick: (Int) -> Unit,
     transferAction: String,
     draggable: Boolean,
     modifier: Modifier = Modifier,
@@ -42,7 +54,7 @@ fun BlackmailWord(
                             onLongPress = {
                                 startTransfer(
                                     DragAndDropTransferData(
-                                        clipData = ClipData.newPlainText(transferAction, word)
+                                        clipData = ClipData.newPlainText(transferAction, index.toString()),
                                     )
                                 )
                             }
@@ -52,7 +64,7 @@ fun BlackmailWord(
         } else {
             modifier.then(
                 Modifier
-                    .clickable { onClick(word) }
+                    .clickable { onClick(index) }
             )
         },
         shape = RoundedCornerShape(MaterialTheme.dimensions.wordCorner),
@@ -73,6 +85,7 @@ fun BlackmailWord(
 @Composable
 fun BlackmailWordPreview() {
     BlackmailWord(
+        index = 0,
         word = "blackmail",
         onClick = { },
         draggable = false,

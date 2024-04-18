@@ -73,27 +73,33 @@ class GameplayViewModel(
                 }
             }
             is GameplayEvent.MoveWordToTray -> {
+                val word = state.blackmailLetter[event.index]
                 state = state.copy(
+                    //remove word from blackmail letter tray
                     blackmailLetter = removeWord(
                         state.blackmailLetter,
-                        event.word,
+                        word,
                     ),
+                    //add word to blackmail word tray
                     blackmailTray = addWord(
                         state.blackmailTray,
-                        event.word,
+                        word,
                         addToFront = true
                     )
                 )
             }
             is GameplayEvent.MoveWordToLetter -> {
+                val word = state.blackmailTray[event.index]
                 state = state.copy(
+                    //remove word from blackmail word tray
                     blackmailTray = removeWord(
                         wordList = state.blackmailTray,
-                        word =  event.word,
+                        word = word,
                     ),
+                    //add word to blackmail letter tray
                     blackmailLetter = addWord(
                         state.blackmailLetter,
-                        event.word,
+                        word,
                     )
                 )
             }

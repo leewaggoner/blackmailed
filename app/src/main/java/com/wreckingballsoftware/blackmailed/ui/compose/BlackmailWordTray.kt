@@ -7,7 +7,7 @@ import androidx.compose.ui.tooling.preview.Preview
 @Composable
 fun BlackmailWordTray(
     words: List<String>,
-    onClick: (String) -> Unit,
+    onClick: (Int) -> Unit,
     transferAction: String,
     draggable: Boolean,
     modifier: Modifier = Modifier,
